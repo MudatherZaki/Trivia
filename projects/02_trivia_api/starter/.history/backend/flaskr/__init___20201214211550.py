@@ -7,7 +7,7 @@ import random
 
 from sqlalchemy.orm import query 
 
-from models import setup_db, Question, Category
+from .models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
 

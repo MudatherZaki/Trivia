@@ -96,11 +96,9 @@ def create_app(test_config=None):
   TEST: When you click the trash icon next to a question, the question will be removed.
   This removal will persist in the database and when you refresh the page. 
   '''
-  @app.route('/questions/<question_id>', methods=['DELETE'])
+  @app.route('/questions/<int:question_id>', methods=['DELETE'])
   def delete_question(question_id):
-    int_id = int(question_id)
-
-    question = Question.query.filter(Question.id == int_id).one_or_none()
+    question = Question.query.filter(Question.id == int(question_id)).one_or_none()
     
     if question is None:
       abort(404)
@@ -157,19 +155,19 @@ def create_app(test_config=None):
   @app.route('/questions/search', methods=['POST'])
   def search():
     body = request.get_json()
-    search_term = body.get('searchTerm', '').casefold()
+    search_term = request.form.get('searchTerm', '').casefold()
     questions = Question.query.filter(func.lower(Question.question).like('%' + search_term + '%')).all()
 
     if len(questions) == 0:
       abort(404)
 
-    category = Category.query.filter(Category.type == questions[0].category).one_or_none()
+    category = Category.query.filter(Category.type == questions[0].category).one_or_none
     return jsonify({
       'success': True,
-      'questions': [question.format() for question in questions],
+      'questions': questions,
       'totalQuestions': len(questions),
       'currentCategory': category.format()
-    }), 200
+    })
 
   '''
   @TODO: 
@@ -193,7 +191,7 @@ def create_app(test_config=None):
       'questions': formatted_questions,
       'totalQuestions': len(formatted_questions),
       'currentCategory': category.format()
-    }), 200
+    })
 
   '''
   @TODO: 
@@ -250,7 +248,7 @@ def create_app(test_config=None):
         "message": "Unprocessable Entity"
         }), 422
   
-  @app.errorhandler(400)
+  @app.errorhandler(422)
   def bad_request(error):
     return jsonify({
         "success": False, 

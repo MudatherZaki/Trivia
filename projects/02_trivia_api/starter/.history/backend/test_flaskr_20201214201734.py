@@ -57,7 +57,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertFalse(data["success"])
 
     def test_delete_existing_question(self):
-        res = self.client().delete('/questions/18')
+        res = self.client().delete('/questions/4')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -91,7 +91,7 @@ class TriviaTestCase(unittest.TestCase):
         })
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 422)
+        self.assertEqual(res.status_code, 400)
         self.assertFalse(data["success"]) 
 
     def test_search(self):
@@ -114,7 +114,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertFalse(data["success"]) 
         
     def test_get_by_category(self):
-        res = self.client().get('/categories/1/questions')
+        res = self.client().post('/categories/1/questions')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -129,9 +129,9 @@ class TriviaTestCase(unittest.TestCase):
         self.assertFalse(data["success"])
     
     def test_quizzes(self):
-        res = self.client().post('/quizzes', json={
+        res = self.client().get('/quizzes', json={
             "previous_questions": [],
-            "quiz_category": {"id": 1}
+            "quiz_category": {"Science": 1}
         })
         data = json.loads(res.data)
 
@@ -140,9 +140,9 @@ class TriviaTestCase(unittest.TestCase):
         self.assertFalse(data["question"] is None)
     
     def test_quizzes_with_wrong_category(self):
-        res = self.client().post('/quizzes', json={
+        res = self.client().get('/quizzes', json={
             "previous_questions": [],
-            "quiz_category": {"id": 80}
+            "quiz_category": {"NONE": 80}
         })
         data = json.loads(res.data)
 

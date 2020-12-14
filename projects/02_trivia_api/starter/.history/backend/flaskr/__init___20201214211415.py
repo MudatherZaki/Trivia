@@ -7,7 +7,7 @@ import random
 
 from sqlalchemy.orm import query 
 
-from models import setup_db, Question, Category
+from .models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
 
@@ -166,7 +166,7 @@ def create_app(test_config=None):
     category = Category.query.filter(Category.type == questions[0].category).one_or_none()
     return jsonify({
       'success': True,
-      'questions': [question.format() for question in questions],
+      'questions': questions,
       'totalQuestions': len(questions),
       'currentCategory': category.format()
     }), 200

@@ -131,7 +131,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_quizzes(self):
         res = self.client().post('/quizzes', json={
             "previous_questions": [],
-            "quiz_category": {"id": 1}
+            "quiz_category": {"Science": 1}
         })
         data = json.loads(res.data)
 
@@ -142,7 +142,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_quizzes_with_wrong_category(self):
         res = self.client().post('/quizzes', json={
             "previous_questions": [],
-            "quiz_category": {"id": 80}
+            "quiz_category": {"NONE": 80}
         })
         data = json.loads(res.data)
 
