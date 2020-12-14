@@ -75,7 +75,7 @@ class TriviaTestCase(unittest.TestCase):
             "question": "WHY?",
             "answer": "BECAUSE",
             'difficulty': 1,
-            'category': 1
+            'category': "SCIENCE"
         })
         data = json.loads(res.data)
 
